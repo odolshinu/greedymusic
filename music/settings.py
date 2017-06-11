@@ -25,7 +25,7 @@ SECRET_KEY = ')srb@h8(-%4x=gn0p639*^0(rlo#a9p_^w65gqmce&qw+g0&$='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['greedymusic.herokuapp.com']
 
 
 # Application definition
