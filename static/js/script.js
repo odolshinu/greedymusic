@@ -4,7 +4,8 @@ $(document).ready(function() {
 	$("#track_add_button").click(function(ev) {
 		$.get("/genres/", {})
 		.done(function(data){
-			$("#genre_select").empty();
+			$("#genre_create_selection").empty();
+			add_create_select();
 			if (data['success'] == 1){
 				$.each(data['genres'], function(index, element){
 					template = create_genre_select_entry(element);
@@ -12,6 +13,12 @@ $(document).ready(function() {
 				});
 				$("#genre_select").multiselect();
 			}
+		});
+		$("#track_form").find("input[name=name]").val('');
+		rating_template = '<input type="number" class="detail_rating" name="rating" value="0" />';
+		$("#track_create_rating").html(rating_template);
+		$("#track_create_rating").find(".detail_rating").each(function(){
+			$(this).rating();
 		});
 		$("#track_add").modal();
 	});
@@ -72,6 +79,11 @@ $(document).ready(function() {
 			load_tracks(data);
 		}
 	});
+
+	$("#genre_add_button").click(function() {
+		$("#genre_form").find('input[name="name"]').val('');
+		$("#genre_add").modal();
+	});
 });
 
 var load_tracks = function(key) {
@@ -86,7 +98,10 @@ var load_tracks = function(key) {
 			$(".ratings").each(function(){
 				$(this).rating();
 			});
-			if (!key.page) {
+			if (data['count'] <= 5) {
+				$("#track_pagination").empty();
+			}
+			else if (!key.page) {
 				create_pagination(key, data['count']);
 			}
 		}
@@ -199,6 +214,11 @@ var load_track_edit_popup = function(track){
 var add_select = function() {
 	template = '<select id="genre_edit_select" multiple="multiple" name="genre"></select>'
 	$("#genre_edit_selection").html(template);
+}
+
+var add_create_select = function() {
+	template = '<select id="genre_select" multiple="multiple" name="genre"></select>'
+	$("#genre_create_selection").html(template);
 }
 
 var delete_track = function(track){
